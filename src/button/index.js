@@ -5,13 +5,13 @@ const Base = ({ text, handleClick, className }) => {
   return (
     <button
       className={cx(
-        'px-3 py-1',
-        'rounded border-gray-700 border text-white',
-        className
+        'px-1 py-1',
+        className,
+        'rounded border-gray-700 border text-white text-sm'
       )}
       onClick={() => handleClick()}
     >
-      <span>{text}</span>
+      <span className='text-center'>{text}</span>
     </button>
   )
 }
@@ -20,7 +20,7 @@ const Button = ({ type, text, handleClick, className }) => {
     return (
       <Base
         text={text}
-        className={cx('bg-indigo-600', className)}
+        className={cx('bg-indigo-700', className)}
         handleClick={handleClick}
       />
     )

@@ -1,85 +1,57 @@
-import React, { useEffect, useState } from 'react'
-// import cx from 'classnames'
+import React from 'react'
+import cx from 'classnames'
 import Button from '../button'
-import styles from './card.module.css'
 import Filter from '../filter'
+import { conjunctions } from '../index'
 
-const joins = ['&&', '||']
-const Card = ({ text }, ref) => {
-  const [join, setJoin] = useState(joins[0])
-  const [query, setQuery] = useState('')
-  const [filters, setFilters] = useState([
-    { field: null, condition: null, criteria: null }
-  ])
-
-  const handleAddFilter = () => {
-    setFilters([...filters, { field: null, condition: null, criteria: null }])
-  }
-  const removeFilter = (rowIndex) => {
-    if (filters.length === 1) return
-    filters.splice(rowIndex, 1)
-    setFilters([...filters])
-  }
-  // move up later
-  const buildQuery = () => {
-    // eslint-disable-next-line no-unused-vars
-    let filterQuery = ''
-    for (let i = 0; i < filters.length; i++) {
-      const filter = filters[i]
-      if (i === 0) {
-        filterQuery += `"field.${filter.field?.value} ${filter.condition?.value} \\"${filter.criteria?.value}"\\"`
-      } else {
-        filterQuery += `${join} "field.${filter.field?.value} ${filter.condition?.value} \\"${filter.criteria?.value}"\\"`
-      }
-    }
-    console.log(filterQuery)
-    setQuery(filterQuery)
-  }
-
-  const handleFilterState = ({ item, selectedOption, rowIndex }) => {
-    filters[rowIndex][item] = selectedOption
-    setFilters([...filters])
-  }
-  useEffect(() => {
-    buildQuery()
-  }, [filters])
-
+const Card = ({
+  groupIndex,
+  handleConjunction,
+  state,
+  handleAddFilter,
+  handleFilterState,
+  removeFilter,
+  join,
+  className
+}) => {
   const renderFilters = () => {
     return filters.map((item, rowIndex) => {
       return (
         <Filter
           key={rowIndex}
           filterState={item}
-          setFilterState={handleFilterState}
+          setFilterState={(filterObj) =>
+            handleFilterState({ ...filterObj, groupIndex })
+          }
           rowIndex={rowIndex}
-          removeFilter={removeFilter}
+          removeFilter={() => removeFilter(rowIndex, groupIndex)}
         />
       )
     })
   }
-
+  const { filters, conjunction } = state
   return (
-    <div className={styles.card}>
+    <div className={cx('w-full bg-gray-800 rounded-sm p-5', className)}>
       <div>
         <Button
-          type='primary'
+          type={conjunction === conjunctions[0] ? 'primary' : ''}
           text='AND'
-          handleClick={() => setJoin(joins[0])}
-          className='rounded-r-none'
+          handleClick={() => handleConjunction(conjunctions[0], groupIndex)}
+          className='rounded-r-none px-2'
         />
         <Button
+          type={conjunction === conjunctions[1] ? 'primary' : ''}
           text='OR'
-          handleClick={() => setJoin(joins[1])}
-          className='rounded-l-none'
+          handleClick={() => handleConjunction(conjunctions[1], groupIndex)}
+          className='rounded-l-none px-2'
         />
       </div>
-
-      {/* Figure out a render logic for dynamic list */}
       {renderFilters()}
       <Button
         type='primary'
         text='+ Add filter'
-        handleClick={handleAddFilter}
+        handleClick={() => handleAddFilter(groupIndex)}
+        className='px-2'
       />
     </div>
   )

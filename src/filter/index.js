@@ -48,18 +48,6 @@ const criterias = [
 ]
 
 const Filter = ({ filterState, setFilterState, rowIndex, removeFilter }) => {
-  //   const [field, setField] = useState(null)
-  //   const [condition, setFilterState] = useState(null)
-  //   const [criteria, setCriteria] = useState(null)
-
-  //   useImperativeHandle(ref, () => ({
-  //     getState: () => {
-  //       return {
-  //         a: 1,
-  //         b: 2
-  //       }
-  //     }
-  //   }))
   const { field, condition, criteria } = filterState
   return (
     <div className='flex gap-4 mt-10 mb-5'>
@@ -70,7 +58,7 @@ const Filter = ({ filterState, setFilterState, rowIndex, removeFilter }) => {
         }
         options={fields}
         styles={{}}
-        className='flex-grow w-full'
+        className='flex-grow w-full text-sm'
       />
 
       <Select
@@ -80,7 +68,7 @@ const Filter = ({ filterState, setFilterState, rowIndex, removeFilter }) => {
         }
         options={conditions}
         styles={{}}
-        className='flex-grow w-full'
+        className='flex-grow w-full text-sm'
       />
 
       <Select
@@ -90,12 +78,11 @@ const Filter = ({ filterState, setFilterState, rowIndex, removeFilter }) => {
         }
         options={criterias}
         styles={{}}
-        className='flex-grow w-full'
+        className='flex-grow w-full text-sm'
       />
-      {/* </div> */}
       <Button
         text={<DeleteIcon />}
-        className='ml-2'
+        className='ml-2 px-2'
         handleClick={() => removeFilter(rowIndex)}
       />
     </div>
