@@ -1,95 +1,86 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 // import cx from 'classnames'
 import Button from '../button'
 import styles from './card.module.css'
-import Select from 'react-select'
+import Filter from '../filter'
 
-const options = [
-  {
-    label: 'Prediction',
-    options: [
-      { label: 'Group 1, option 1', value: 'value_1' },
-      { label: 'Group 1, option 2', value: 'value_2' }
-    ]
-  },
-  {
-    label: 'Common',
-    options: [
-      { label: 'Group 1, option 1', value: 'value_1' },
-      { label: 'Group 1, option 2', value: 'value_2' }
-    ]
-  },
-  { label: 'Another root option', value: 'value_4' }
-]
-const customStyles = {
-  menu: (provided, state) => ({
-    ...provided,
-    width: state.selectProps.width,
-    borderBottom: '1px dotted pink',
-    color: state.selectProps.menuColor,
-    padding: 20
-  }),
+const joins = ['&&', '||']
+const Card = ({ text }, ref) => {
+  const [join, setJoin] = useState(joins[0])
+  const [query, setQuery] = useState('')
+  const [filters, setFilters] = useState([
+    { field: null, condition: null, criteria: null }
+  ])
 
-  control: (_, { selectProps: { width } }) => ({
-    width: width
-  }),
-
-  singleValue: (provided, state) => {
-    const opacity = state.isDisabled ? 0.5 : 1
-    const transition = 'opacity 300ms'
-
-    return { ...provided, opacity, transition }
+  const handleAddFilter = () => {
+    setFilters([...filters, { field: null, condition: null, criteria: null }])
   }
-}
+  const removeFilter = (rowIndex) => {
+    if (filters.length === 1) return
+    filters.splice(rowIndex, 1)
+    setFilters([...filters])
+  }
+  // move up later
+  const buildQuery = () => {
+    // eslint-disable-next-line no-unused-vars
+    let filterQuery = ''
+    for (let i = 0; i < filters.length; i++) {
+      const filter = filters[i]
+      if (i === 0) {
+        filterQuery += `"field.${filter.field?.value} ${filter.condition?.value} \\"${filter.criteria?.value}"\\"`
+      } else {
+        filterQuery += `${join} "field.${filter.field?.value} ${filter.condition?.value} \\"${filter.criteria?.value}"\\"`
+      }
+    }
+    console.log(filterQuery)
+    setQuery(filterQuery)
+  }
 
-const Card = ({ text }) => {
-  const handleClick = () => {
-    // eslint-disable-next-line no-undef
-    alert('fired')
+  const handleFilterState = ({ item, selectedOption, rowIndex }) => {
+    filters[rowIndex][item] = selectedOption
+    setFilters([...filters])
   }
-  const [selectedOption, setSelectedOption] = useState(null)
-  const handleChange = (selectedOption) => {
-    setSelectedOption(selectedOption)
-    console.log(`Option selected:`, selectedOption)
+  useEffect(() => {
+    buildQuery()
+  }, [filters])
+
+  const renderFilters = () => {
+    return filters.map((item, rowIndex) => {
+      return (
+        <Filter
+          key={rowIndex}
+          filterState={item}
+          setFilterState={handleFilterState}
+          rowIndex={rowIndex}
+          removeFilter={removeFilter}
+        />
+      )
+    })
   }
+
   return (
     <div className={styles.card}>
       <div>
         <Button
           type='primary'
           text='AND'
-          handleClick={handleClick}
+          handleClick={() => setJoin(joins[0])}
           className='rounded-r-none'
         />
         <Button
           text='OR'
-          handleClick={handleClick}
+          handleClick={() => setJoin(joins[1])}
           className='rounded-l-none'
         />
       </div>
-      <div className='grid grid-cols-3 gap-4 mt-10 mb-5'>
-        <Select
-          value={selectedOption}
-          onChange={handleChange}
-          options={options}
-          styles={{}}
-        />
-        <Select
-          value={selectedOption}
-          onChange={handleChange}
-          options={options}
-          styles={{}}
-        />
-        <Select
-          value={selectedOption}
-          onChange={handleChange}
-          options={options}
-          styles={{}}
-        />
-      </div>
-      {/* Figure out a render logic for dynamic list */}
 
-      <Button type='primary' text='+ Add filter' handleClick={handleClick} />
+      {/* Figure out a render logic for dynamic list */}
+      {renderFilters()}
+      <Button
+        type='primary'
+        text='+ Add filter'
+        handleClick={handleAddFilter}
+      />
     </div>
   )
 }

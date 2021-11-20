@@ -9,7 +9,7 @@ const Base = ({ text, handleClick, className }) => {
         'rounded border-gray-700 border text-white',
         className
       )}
-      onClick={handleClick}
+      onClick={() => handleClick()}
     >
       <span>{text}</span>
     </button>
@@ -21,11 +21,11 @@ const Button = ({ type, text, handleClick, className }) => {
       <Base
         text={text}
         className={cx('bg-indigo-600', className)}
-        onClick={handleClick}
+        handleClick={handleClick}
       />
     )
   }
-  return <Base text={text} className={className} onClick={handleClick} />
+  return <Base text={text} className={className} handleClick={handleClick} />
 }
 
 export default Button
