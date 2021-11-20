@@ -1,6 +1,7 @@
 import React from 'react'
-import styles from './styles.module.css'
-
-export const ExampleComponent = ({ text }) => {
-  return <div className={styles.test}>Example Component: {text}</div>
+// import cx from 'classnames'
+import 'tailwindcss/tailwind.css'
+import Card from './card'
+export const QueryBuilder = ({ text }) => {
+  return <Card />
 }

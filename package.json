@@ -12,7 +12,7 @@
     "node": ">=10"
   },
   "scripts": {
-    "build": "microbundle-crl --no-compress --format modern,cjs",
+    "build": "NODE_ENV=production microbundle-crl --no-compress --format modern,cjs",
     "start": "microbundle-crl watch --no-compress --format modern,cjs",
     "prepare": "run-s build",
     "test": "run-s test:unit test:lint test:build",
@@ -53,5 +53,9 @@
   "files": [
     "dist"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "classnames": "2.3.1",
+    "postcss-import": "14.0.2",
+    "react-select": "5.2.1"
+  }
 }

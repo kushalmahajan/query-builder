@@ -1,7 +1,10 @@
 module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {}
+    extend: {},
+    fontFamily: {
+      display: ['Oswald']
+    }
   },
   variants: {},
   purge: ['./src/**/*.html', './src/**/*.js'],
