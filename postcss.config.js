@@ -7,6 +7,10 @@ module.exports = {
     }
   },
   variants: {},
-  purge: ['./src/**/*.html', './src/**/*.js'],
+  purge: {
+    enabled: true,
+    content: ['./src/**/*.html', './src/**/*.js'],
+    css: ['./dist/index.css']
+  },
   plugins: [require('tailwindcss'), require('autoprefixer')]
 }

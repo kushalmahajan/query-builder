@@ -13,16 +13,22 @@ npm install --save query-builder
 ## Usage
 
 ```jsx
-import React, { Component } from 'react'
+import React from 'react'
 
-import MyComponent from 'query-builder'
+import { QueryBuilder } from 'query-builder'
 import 'query-builder/dist/index.css'
 
-class Example extends Component {
-  render() {
-    return <MyComponent />
-  }
+const App = () => {
+  return (
+    <QueryBuilder
+      handleBack={() => alert('fired')}
+      handleFinish={(query) => alert(JSON.stringify(query))}
+    />
+  )
 }
+
+export default App
+
 ```
 
 ## License

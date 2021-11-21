@@ -1,5 +1,5 @@
 {
-  "name": "react-query-builder",
+  "name": "react-dynamic-query-builder",
   "version": "1.0.0",
   "description": "dynamic query builder",
   "author": "kushalmahajan",
@@ -15,22 +15,29 @@
     "build": "NODE_ENV=production microbundle-crl --no-compress --css inline --format modern,cjs",
     "minify:css": "css-minify -f dist/index.css -o dist && rm dist/index.css && mv dist/index.min.css dist/index.css",
     "start": "microbundle-crl watch --no-compress --format modern,cjs",
-    "prepare": "run-s build",
     "test": "run-s test:unit test:lint test:build",
     "test:build": "run-s build",
     "test:lint": "eslint .",
     "test:unit": "cross-env CI=1 react-scripts test --env=jsdom",
     "test:watch": "react-scripts test --env=jsdom",
     "predeploy": "cd example && yarn install && yarn run build",
-    "deploy": "gh-pages -d example/build"
+    "deploy": "gh-pages -d example/build",
+    "prepublish": "yarn run build && yarn minify:css",
+    "prepack": "yarn run build && yarn minify:css"
   },
   "peerDependencies": {
     "react": "^16.0.0"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
+    "@fullhuman/postcss-purgecss": "3.0",
+    "@tailwindcss/postcss7-compat": "2.2.17",
     "autoprefixer": "^9",
     "babel-eslint": "^10.0.3",
     "cross-env": "^7.0.2",
+    "css-minify": "2.0.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.7.0",
     "eslint-config-standard": "^14.1.0",
@@ -56,7 +63,6 @@
   ],
   "dependencies": {
     "classnames": "2.3.1",
-    "postcss-import": "14.0.2",
     "react-select": "5.2.1"
   }
 }
