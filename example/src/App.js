@@ -4,7 +4,12 @@ import { QueryBuilder } from 'query-builder'
 import 'query-builder/dist/index.css'
 
 const App = () => {
-  return <QueryBuilder text='Create React Library Example 😄' />
+  return (
+    <QueryBuilder
+      handleBack={() => alert('fired')}
+      handleFinish={(query) => alert(JSON.stringify(query))}
+    />
+  )
 }
 
 export default App

@@ -7,7 +7,7 @@ import Header from './header'
 
 export const conjunctions = ['&&', '||']
 
-export const QueryBuilder = () => {
+export const QueryBuilder = ({ handleFinish, handleBack }) => {
   const [state, setState] = useState([
     {
       filters: [{ field: null, condition: null, criteria: null }],
@@ -107,6 +107,15 @@ export const QueryBuilder = () => {
           text='+ Add New gropup filter'
           type='primary'
           handleClick={handleAddGroup}
+          className='px-2'
+        />
+      </div>
+      <div className='container mt-32 mx-auto w-full flex justify-between'>
+        <Button text='Back' handleClick={handleBack} className='px-2' />
+        <Button
+          text='Finish'
+          type='primary'
+          handleClick={() => handleFinish(query)}
           className='px-2'
         />
       </div>
