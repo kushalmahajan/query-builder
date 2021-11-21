@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react'
 // import cx from 'classnames'
 import 'tailwindcss/tailwind.css'
 import Button from './button'
-import Card from './card'
+import Card, { conjunctions } from './card'
 import Header from './header'
-
-export const conjunctions = ['&&', '||']
 
 export const QueryBuilder = ({ handleFinish, handleBack }) => {
   const [state, setState] = useState([

@@ -2,7 +2,8 @@ import React from 'react'
 import cx from 'classnames'
 import Button from '../button'
 import Filter from '../filter'
-import { conjunctions } from '../index'
+
+export const conjunctions = ['&&', '||']
 
 const Card = ({
   groupIndex,
