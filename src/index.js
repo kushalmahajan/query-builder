@@ -73,16 +73,25 @@ export const QueryBuilder = () => {
     let filterQuery = ''
     for (let i = 0; i < state.length; i++) {
       const group = state[i]
-      for (let j = 0; j < group.length; j++) {
-        const filter = group[j]
-        if (j === 0) {
-          filterQuery += `"field.${filter.field?.value} ${filter.condition?.value} \\"${filter.criteria?.value}"\\"`
-        } else {
-          filterQuery += `${join} "field.${filter.field?.value} ${filter.condition?.value} \\"${filter.criteria?.value}"\\"`
+      if (i > 0 && filterQuery)
+        filterQuery = `${filterQuery} ${group.conjunction} `
+      for (let j = 0; j < group.filters.length; j++) {
+        const filter = group.filters[j]
+        if (j > 0 && filterQuery) {
+          filterQuery = `${filterQuery} ${group.conjunction} `
+        }
+        // TO handle the undefined  states, build it step by step
+        if (filter.field) {
+          filterQuery += `"field.${filter.field?.value} `
+        }
+        if (filter.condition) {
+          filterQuery += `${filter.condition?.value} `
+        }
+        if (filter.criteria) {
+          filterQuery += `\\"${filter.criteria?.value}"\\"`
         }
       }
     }
-    console.log(filterQuery)
     setQuery(filterQuery)
   }
   useEffect(() => {

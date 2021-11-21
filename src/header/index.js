@@ -12,9 +12,10 @@ const Header = ({ query }) => {
         />
       </div>
       <div className='bg-indigo-700 p-5 mt-4 rounded'>
-        <span>
-          <b className='text-white text-base'>Query:</b>
-          {/* {query} */}
+        <span className='text-white'>
+          <b className='text-base mr-1'>Query:</b>
+          {/* {query.includes('undefined') ? null : query} */}
+          {query}
         </span>
       </div>
     </div>
