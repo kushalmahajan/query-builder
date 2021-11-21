@@ -4,7 +4,7 @@
   "description": "dynamic query builder",
   "author": "kushalmahajan",
   "license": "MIT",
-  "repository": "kushalmahajan/query-builder",
+  "repository": "https://github.com/kushalmahajan/query-builder",
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.js",
@@ -12,7 +12,8 @@
     "node": ">=10"
   },
   "scripts": {
-    "build": "NODE_ENV=production microbundle-crl --no-compress --format modern,cjs",
+    "build": "NODE_ENV=production microbundle-crl --no-compress --css inline --format modern,cjs",
+    "minify:css": "css-minify -f dist/index.css -o dist && rm dist/index.css && mv dist/index.min.css dist/index.css",
     "start": "microbundle-crl watch --no-compress --format modern,cjs",
     "prepare": "run-s build",
     "test": "run-s test:unit test:lint test:build",
